@@ -1,0 +1,61 @@
+spring:
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+              - HEAD
+            allowedHeaders: "*"
+            maxAge: 3600
+      default-filters:
+        - JwtAuthenticationFilter
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: uaa
+          uri: lb://uaa
+          predicates:
+            - Path=/uaa/**
+          filters:
+            - StripPrefix=1
+        - id: storage
+          uri: lb://storage
+          predicates:
+            - Path=/storage/**
+          filters:
+            - StripPrefix=1
+        - id: hotel
+          uri: lb://hotel
+          predicates:
+            - Path=/hotel/**
+          filters:
+            - StripPrefix=1
+        - id: trade
+          uri: lb://trade
+          predicates:
+            - Path=/trade/**
+          filters:
+            - StripPrefix=1
+        - id: payment
+          uri: lb://payment
+          predicates:
+            - Path=/payment/**
+          filters:
+            - StripPrefix=1
+  webflux:
+    multipart:
+      max-file-size: 5000MB
+      max-request-size: 5000MB
+
+jwt:
+  secret: bHRsc2FkZmFmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmd3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d4eHh4eHh4eHg=
+
+
